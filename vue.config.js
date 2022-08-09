@@ -1,5 +1,6 @@
 module.exports = {
     devServer: {
-        proxy: 'https://connectplug.com.br'
+        proxy: 'http://connectplug.com.br'
     } 
+    
 }
