@@ -1,7 +1,20 @@
 import axios from 'axios'
 
+const baseURL= '/api/v2/app/'
+const instance = axios.create({ baseURL })
+instance.interceptors.request.use(
+    config => {
+        config.headers['Accept'] = 'application/json'
+        config.headers['Content-Type'] = 'application/json'
+        if (config.data == null) {
+            config.data = {}
+        }
 
-axios.defaults.baseURL= '';
-axios.defaults.headers.common['Accept'] = 'application/json'
-axios.defaults.headers.common['Content-Type'] = 'application/json'
-axios.defaults.headers.common['Device-ID'] = '00000000-0000-0000-0000-000000000050'
+        return config
+    },
+    err => {
+        return Promise.reject(err)
+    }
+)
+export default instance
+export { baseURL }

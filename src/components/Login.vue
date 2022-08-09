@@ -13,12 +13,13 @@
         </div>
         <button class="btn btn-primary btn-block">Sign Up</button>
     </form>
-    <button @click="products">PRODUTOS</button>
+    <button class="" @click="products">PRODUTOS</button>
+    <button class="" @click="productsA">PRODUTOS await</button>
 </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from './../axios.js'
 
 export default {
     data(){
@@ -38,42 +39,41 @@ export default {
  
                 pin:this.pin_code,
                 device_id:'50',
-                app_type:'DESKTOP',
+                app_type:'SERVER',
                 info:{
                     model:'API TAG'
                 }
             })
             
             localStorage.setItem('hash',response.data.data.hash)
-            localStorage.setItem('ID','00000000-0000-0000-0000-000000000050')
+            localStorage.setItem('ID','50')
 
 
             console.log("HASH LOCAL",localStorage.hash);
             console.log("DEVICED ID:",localStorage)
         },
-        products(){
+        async products(){
            
-        const response = axios.get('product',{
+         const productos =await axios.get('/product',{
+            
             headers:{
-                Authorization:'62ed79258902c-f69f7dbf87bad5e4ddd27157ec1c5c2d-6RWLM7ndrmDAMgP5o',
-                
-            }
-        })
-       console.log(response)
+                "Authorization": localStorage.hash,
+                "Device-ID":localStorage.ID,
+                "Content-Type":"application/json"
+            },          
+        });
+       
+       console.log(productos.data.data)
         
+        },
+        productsA(){
+            axios.get('product').then((response)=>console.log(response)).catch((error)=>console.log(response)); 
         }
-    },
-    async created(){
+        
+    }
+   
            
-        const productos =await axios.get('http://localhost:8080/api/v2/product-category',{
-            headers:{
-                Authorization:'62ed7c7f94cf6-76747af643fb47ace152a7aa7d6cb126-IBy6kggAcrIMyxSOb',
-                
-            }
-        })
-       console.log(productos)
-        
-        }
+       
     
 }
 </script>
